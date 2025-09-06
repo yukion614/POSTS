@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import PostPage from "./components/PostPage.vue";
+import Login from "./components/Login.vue"
 import { createPinia } from "pinia";
 
 const router = createRouter({
@@ -24,6 +25,7 @@ const router = createRouter({
     { path: "/", component: Home },
     { path: "/posts", name: "posts", component: Posts },
     { path: "/post/:id", name: "post", component: PostPage },
+    { path: "/login", name: "login", component: Login },
   ],
 });
 
