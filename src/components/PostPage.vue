@@ -56,7 +56,6 @@
       </div>
       <hr />
       <!-- 留言區 -->
-      {{ comment }}
       <div class="mt-4 block m-auto w-8/12">
         <textarea
           v-model="comment"
@@ -65,7 +64,7 @@
         ></textarea>
         <button
           class="btn btn-primary mt-2 block ml-auto"
-          @click="submitComment(Number(postStore.post?.id))"
+          @click="submit()"
         >
           送出
         </button>
@@ -75,47 +74,40 @@
     <button class="btn block m-auto" @click="toPosts()">回到討論區</button>
   </div>
 </template>
+
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue";
 import { usePostStore } from "../stores/post";
-import { useRoute } from "vue-router";
-import { useRouter } from "vue-router";
-import Comments from "../components/Comments.vue";
-import func from "../../vue-temp/vue-editor-bridge";
+import { useRoute,useRouter  } from "vue-router";
+import Comments from "./Comments.vue"
+
 
 const route = useRoute();
 const postStore = usePostStore();
 const comment = ref<string>("");
+const authorId =ref<number>(4);
 
 onBeforeMount(() => {
   postStore.fetchPostById(Number(route.params.id));
 });
+
 const router = useRouter();
+//返回討論區
 function toPosts() {
   router.push({ name: "posts" });
 }
 
-// http://127.0.0.1:3000/api/comments/posts/23/comments
-async function submitComment(id: number) {
-  const api = `http://127.0.0.1:3000/api/comments/posts/${id}/comments`;
-  try {
-    const res = await fetch(api, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        content: comment.value,
-        authorId: 4,
-      }),
-    });
-    const data = await res.json();
-    comment.value = ""; // 清空輸入框
-    // return data;
-    await postStore.fetchPostById(Number(route.params.id));
-  } catch (err) {
-    console.log("留言失敗", err);
-  }
+async function submit(){
+  localStorage
+  await postStore.submitComment(
+    Number(postStore.post?.id),
+    comment.value ,
+    Number(authorId.value) )
+  //清空comment
+  comment.value = ''
 }
+
+
+
 </script>
 <script scope></script>

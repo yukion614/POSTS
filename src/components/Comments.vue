@@ -17,6 +17,8 @@
     <div class="chat-bubble">{{ comment.content }}</div>
   </div>
 </template>
+
+
 <script setup lang="ts">
 import { defineProps } from "vue";
 defineProps<{
@@ -29,4 +31,3 @@ defineProps<{
 }>();
 </script>
 
-<style scope="this api replaced by slot-scope in 2.5.0+"></style>
