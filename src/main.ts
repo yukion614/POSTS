@@ -1,0 +1,35 @@
+import { ref, createApp } from "vue";
+import "./style.css";
+import App from "./App.vue";
+import { createRouter, createWebHistory } from "vue-router";
+
+import Posts from "./components/Posts.vue";
+import Post from "./components/PostPage.vue";
+import Home from "./components/Home.vue";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faAngleLeft,
+  faAnglesLeft,
+  faAngleRight,
+  faAnglesRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import PostPage from "./components/PostPage.vue";
+import { createPinia } from "pinia";
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: "/", component: Home },
+    { path: "/posts", name: "posts", component: Posts },
+    { path: "/post/:id", name: "post", component: PostPage },
+  ],
+});
+
+library.add(faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight);
+createApp(App)
+  .component("FontAwesomeIcon", FontAwesomeIcon)
+  .use(createPinia())
+  .use(router)
+  .mount("#app");
