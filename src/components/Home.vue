@@ -1,21 +1,18 @@
 <template>
-  <section
-    class="section relative h-96"
-    style="
-      background-image: url('/images/blurred-motion-sports-car-track-generative-ai.jpg');
-    "
-  ></section>
+  <div class="flex-col m-0">
+    <img class="h-96 w-full object-cover" src="/blurred-motion-sports-car-track-generative-ai.jpg" alt="">
 
-  <div class="container mx-auto my-20 px-4">
-    <!-- content -->
-    <h1 class="text-white font-bold text-5xl justify-self-center my-11">
-      CALENDAR
-    </h1>
-    <!-- scroll -->
-    <div class="flex flex-nowrap overflow-x-auto space-x-4 p-4 scrollable">
-      <!-- card -->
-      <Calender v-for="el in 8" :key="el" :post="null" />
-      <!-- card end -->
+    <div class="container mx-auto my-20 px-4">
+      <!-- content -->
+      <h1 class="text-white font-bold text-5xl justify-self-center my-11">
+        CALENDAR
+      </h1>
+      <!-- scroll -->
+      <div class="flex flex-nowrap overflow-x-auto space-x-4 p-4 scrollable">
+        <!-- card -->
+        <Calender v-for="el in 8" :key="el" :post="null" />
+        <!-- card end -->
+      </div>
     </div>
   </div>
 </template>

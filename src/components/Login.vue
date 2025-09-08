@@ -50,7 +50,7 @@
             </div>
             <div class="mt-4 flex items-center justify-between">
                 <span class="border-b w-1/5 md:w-1/4"></span>
-                <a href="#" class="text-xs text-gray-500 uppercase">or sign up</a>
+                <router-link :to="{ name: 'registration' }" class="text-xs text-gray-500 uppercase">or sign up</router-link>
                 <span class="border-b w-1/5 md:w-1/4"></span>
             </div>
         </div>
@@ -61,10 +61,15 @@
 <script setup lang="ts">
 import {ref ,type Ref} from "vue"
 import { useRouter } from "vue-router"
+import { useUserStore } from "../stores/user"
+import jwt_decode from "jwt-decode"
+
 const router = useRouter()
 const email = ref<string>("")
 const password = ref<string>("")
 let message = ref<string>()
+const userStore = useUserStore()
+
 const api = "http://127.0.0.1:3000/api/users/login"
 
 interface User{
@@ -84,6 +89,10 @@ async function Login(email:string ,password:string ){
         const data:User = await res.json()
         if(data.success){
             localStorage.setItem('token',data.data.token)
+            const jwt: any = localStorage.getItem('token')
+            const decoded: any = jwt_decode(jwt);
+            userStore.setUser(decoded);
+            // userStore.setUser(data.data.member)
             return router.push('/')
         }else{
             message.value = data.message

@@ -18,15 +18,20 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import PostPage from "./components/PostPage.vue";
 import Login from "./components/Login.vue"
 import { createPinia } from "pinia";
+import Registration from "./components/Registration.vue";
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
+const routes = [
     { path: "/", component: Home },
     { path: "/posts", name: "posts", component: Posts },
     { path: "/post/:id", name: "post", component: PostPage },
     { path: "/login", name: "login", component: Login },
-  ],
+    { path: "/registration", name: "registration", component: Registration },
+   
+  ]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
 });
 
 library.add(faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight);

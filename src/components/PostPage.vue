@@ -79,7 +79,8 @@
 import { onBeforeMount, ref } from "vue";
 import { usePostStore } from "../stores/post";
 import { useRoute,useRouter  } from "vue-router";
-import Comments from "./Comments.vue"
+import Comments from './Comments.vue'
+
 
 
 const route = useRoute();
@@ -96,13 +97,15 @@ const router = useRouter();
 function toPosts() {
   router.push({ name: "posts" });
 }
-
+//發留言
 async function submit(){
-  localStorage
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const authorId = user.id
+  console.log(authorId)
   await postStore.submitComment(
     Number(postStore.post?.id),
     comment.value ,
-    Number(authorId.value) )
+    Number(authorId) )
   //清空comment
   comment.value = ''
 }

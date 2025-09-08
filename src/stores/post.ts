@@ -1,4 +1,6 @@
 import { defineStore } from "pinia";
+//引入env
+const API_HOST: string = import.meta.env.VITE_API_HOST
 
 interface Comments {
   id: number;
@@ -15,6 +17,12 @@ interface Post {
   authorId: number;
   comments: Comments[];
 }
+
+export const useEnvStore = defineStore('env',{
+  state: () => ({
+    env: API_HOST
+  }),
+})
 
 export const usePostStore = defineStore("post", {
   state: () => ({

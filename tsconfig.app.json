@@ -3,6 +3,11 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
+    /* 模組相關：解決 import.meta 錯誤 */
+    "target": "esnext",
+    "module": "node16",
+    "moduleResolution": "node16",
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

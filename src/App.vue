@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar.vue";
 
 <template>
   <Navbar />
-  <div class="app-container flex justify-center p-10">
+  <div class="app-container flex justify-center px-10">
     <!-- router-view  -->
     <router-view />
   </div>
@@ -13,6 +13,6 @@ import Navbar from "./components/Navbar.vue";
 <style scoped>
 .app-container {
   background-color: rgb(35, 35, 35);
-  height: 100vh;
+  height: 100%
 }
 </style>
