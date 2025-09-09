@@ -21,6 +21,12 @@ export const useUserStore = defineStore('user',{
     userAvatar:(state)=>{
         return state.user?.avatar
     },
+    userEmail:(state)=>{
+        return state.user?.email
+    },
+    userId:(state)=>{
+        return state.user?.member_id
+    },
     
   },
   actions: {

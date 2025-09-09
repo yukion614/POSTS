@@ -19,6 +19,8 @@ import PostPage from "./components/PostPage.vue";
 import Login from "./components/Login.vue"
 import { createPinia } from "pinia";
 import Registration from "./components/Registration.vue";
+import Profile from "./components/Profile.vue"
+import Avatar from "./components/Avatar.vue";
 
 const routes = [
     { path: "/", component: Home },
@@ -26,6 +28,8 @@ const routes = [
     { path: "/post/:id", name: "post", component: PostPage },
     { path: "/login", name: "login", component: Login },
     { path: "/registration", name: "registration", component: Registration },
+    { path: "/profile" , name: 'profile' , component: Profile},
+    { path: "/editavatar" , name: 'editavatar', component: Avatar}
    
   ]
 

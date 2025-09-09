@@ -61,8 +61,9 @@
 <script setup lang="ts">
 import {ref} from "vue"
 import { useEnvStore } from "../stores/post"
-import { useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 const envStore = useEnvStore()
+const router = useRouter()
 
 const api = `${envStore.env}/api/users/register`
 const email = ref<string>('')
@@ -91,7 +92,10 @@ async function submitForm(){
             body: JSON.stringify(form)
         })
         const data = await res.json()
-        // console.log(data)
+        console.log(data)
+        if(data.success){
+          router.push({name: "login"})
+        }
 
     }catch(err){
         console.log(err)

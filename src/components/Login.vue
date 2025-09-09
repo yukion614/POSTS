@@ -91,6 +91,7 @@ async function Login(email:string ,password:string ){
             localStorage.setItem('token',data.data.token)
             const jwt: any = localStorage.getItem('token')
             const decoded: any = jwt_decode(jwt);
+            console.log(decoded)
             userStore.setUser(decoded);
             // userStore.setUser(data.data.member)
             return router.push('/')

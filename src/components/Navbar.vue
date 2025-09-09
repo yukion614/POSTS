@@ -39,12 +39,12 @@
             v-show="userStore.user"
           >
             <li>
-              <a class="justify-between">
+              <router-link :to="{name: 'profile'}" class="justify-between">
                 Profile
                 <span class="badge">New</span>
-              </a>
+              </router-link>
             </li>
-            <li><a>Settings</a></li>
+            <li><a>Settings</a></li>+
             <li><a @click.prevent="Logout()">Logout</a></li>
           </ul>
           <!-- dropdown end-->
