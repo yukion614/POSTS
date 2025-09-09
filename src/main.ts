@@ -21,6 +21,7 @@ import { createPinia } from "pinia";
 import Registration from "./components/Registration.vue";
 import Profile from "./components/Profile.vue"
 import Avatar from "./components/Avatar.vue";
+import CreatePost from "./components/CreatePost.vue";
 
 const routes = [
     { path: "/", component: Home },
@@ -29,7 +30,8 @@ const routes = [
     { path: "/login", name: "login", component: Login },
     { path: "/registration", name: "registration", component: Registration },
     { path: "/profile" , name: 'profile' , component: Profile},
-    { path: "/editavatar" , name: 'editavatar', component: Avatar}
+    { path: "/editavatar" , name: 'editavatar', component: Avatar},
+    { path: "/create_post" , name: 'create_post' ,component: CreatePost  }
    
   ]
 

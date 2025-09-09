@@ -24,7 +24,8 @@
         </div>
 
         <hr />
-        <p class="text-lg mt-2">{{ postStore.post?.content }}</p>
+        <!-- <p class="text-lg mt-2">{{ postStore.post?.content }}</p> -->
+        <div class="comment-content" v-html="postStore.post?.content"></div>
         <!-- like btn -->
         <button class="btn flex items-center gap-2 w-20 ml-auto">
           <svg
@@ -87,6 +88,7 @@ const route = useRoute();
 const postStore = usePostStore();
 const comment = ref<string>("");
 const authorId =ref<number>(4);
+
 
 onBeforeMount(() => {
   postStore.fetchPostById(Number(route.params.id));

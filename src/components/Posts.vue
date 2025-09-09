@@ -1,4 +1,9 @@
 <template>
+  <div class="w-full flex py-5">
+      <router-link :to="{name: 'create_post'}" class="ml-auto btn btn-warning">發表新文章</router-link>
+
+  </div>
+  <hr>
   <div class="flex flex-col gap-2 w-full">
     <!-- 數字bar -->
     <div class="join flex w-full border-gray-200">
