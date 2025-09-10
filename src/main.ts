@@ -22,6 +22,8 @@ import Registration from "./components/Registration.vue";
 import Profile from "./components/Profile.vue"
 import Avatar from "./components/Avatar.vue";
 import CreatePost from "./components/CreatePost.vue";
+import RevisePost from "./components/RevisePost.vue";
+
 
 const routes = [
     { path: "/", component: Home },
@@ -31,7 +33,8 @@ const routes = [
     { path: "/registration", name: "registration", component: Registration },
     { path: "/profile" , name: 'profile' , component: Profile},
     { path: "/editavatar" , name: 'editavatar', component: Avatar},
-    { path: "/create_post" , name: 'create_post' ,component: CreatePost  }
+    { path: "/create_post" , name: 'create_post' ,component: CreatePost  },
+    { path: "/revise_post" , name: 'revise_post' ,component:RevisePost}
    
   ]
 

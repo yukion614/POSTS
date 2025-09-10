@@ -9,28 +9,32 @@
             <div class="w-10 rounded-full">
               <img
                 alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
+                :src=" avatarImg "
               />
             </div>
           </div>
           <div class="flex justify-between w-full">
             <!-- 左邊：標題 -->
-            <h2 class="card-title text-2xl">{{ postStore.post?.title }}</h2>
+            <h2 class="card-title text-2xl">{{title}}</h2>
             <!-- 右邊：時間 -->
             <div class="mt-4 text-sm text-gray-500">
-              發佈時間: {{ postStore.post?.createdAt.split("T")[0] }}
+              發佈時間: {{ postStore.post?.createdAt.split("T")[0] }}<br>
+              更新時間: {{ postStore.post?.updatedAt.split("T")[0] }}
             </div>
+            
           </div>
         </div>
 
         <hr />
         <!-- <p class="text-lg mt-2">{{ postStore.post?.content }}</p> -->
-        <div class="comment-content" v-html="postStore.post?.content"></div>
+        <div class="comment-content" v-html="content"></div>
+        <!-- revise -->
+         <button @click="toRevisePost(title , content,postId)" class="btn w-20 ml-auto" v-if="isPoster">編輯內容</button>
         <!-- like btn -->
-        <button class="btn flex items-center gap-2 w-20 ml-auto">
+        <button class="btn flex items-center gap-2 w-20 ml-auto" @click.prevent="sendLike()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
+            :fill="likeColor"
             viewBox="0 0 24 24"
             stroke-width="2.5"
             stroke="currentColor"
@@ -77,8 +81,9 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import { computed, onBeforeMount, onMounted, ref } from "vue";
 import { usePostStore } from "../stores/post";
+import { useUserStore } from "../stores/user";
 import { useRoute,useRouter  } from "vue-router";
 import Comments from './Comments.vue'
 
@@ -86,9 +91,40 @@ import Comments from './Comments.vue'
 
 const route = useRoute();
 const postStore = usePostStore();
+const userStore = useUserStore()
 const comment = ref<string>("");
 const authorId =ref<number>(4);
+const content = computed(()=>postStore.post?.content) 
+const title = computed(()=>postStore.post?.title) 
+const postId = computed(()=>postStore.post?.id) 
 
+const likeColor = ref<string>('none')
+
+
+
+// const likeColor = computed(()=>{
+//    return postStore.post?.likeCount > 0 ? "red" : 'none'
+// })
+
+const isPoster = computed(()=>{
+  if(postStore.post.authorId === userStore.userId){
+    return true
+  }else{
+    return false
+  }
+})
+
+
+
+// const avatarImg =`${import.meta.env.VITE_API_HOST}${postStore.post?.author.avatar}` 
+
+const avatarImg = computed(()=>{
+  if(postStore.post?.author.avatar !== null){
+    return `${import.meta.env.VITE_API_HOST}${postStore.post?.author.avatar}` 
+  }else{
+    return '/da7ed7b0-5f66-4f97-a610-51100d3b9fd2-02.png'
+  }
+})
 
 onBeforeMount(() => {
   postStore.fetchPostById(Number(route.params.id));
@@ -101,9 +137,7 @@ function toPosts() {
 }
 //發留言
 async function submit(){
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
-  const authorId = user.id
-  console.log(authorId)
+  const authorId = userStore.userId
   await postStore.submitComment(
     Number(postStore.post?.id),
     comment.value ,
@@ -113,6 +147,28 @@ async function submit(){
 }
 
 
+function toRevisePost(title:string,content:string,postId:number){
+
+  router.push({
+    name: 'revise_post' ,
+    query:{title, content ,postId}
+  })
+}
+
+async function sendLike(){
+  const postId = postStore.post?.id
+  const authorId = userStore.userId
+  const api = `http://127.0.0.1:3000/api/posts/${postId}/${authorId}`
+  console.log(api,"<====")
+  const result = await fetch(api,{
+    method:"POST",
+  })
+  const data = await result.json()
+  if(data.success){
+    likeColor.value = 'red'
+  }
+  console.log(data)
+}
 
 </script>
 <script scope></script>

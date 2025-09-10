@@ -47,6 +47,8 @@
         <thead>
           <tr>
             <th class="px-4 py-2 text-left w-2/3">主題</th>
+            <th class="px-4 py-2 text-left" >like</th>
+            <th class="px-4 py-2 text-left" >回應</th>
             <th class="px-4 py-2 text-left">avatar</th>
             <th class="px-4 py-2 text-left w-1/3">作者</th>
           </tr>
@@ -91,6 +93,11 @@ interface Post {
   createdAt: string;
   updatedAt: string;
   authorId: number;
+  author: {
+    id: number
+    name: string
+    avatar: string
+  }
 }
 
 interface PaginationResponse {

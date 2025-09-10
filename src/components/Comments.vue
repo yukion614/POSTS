@@ -39,11 +39,11 @@ const props = defineProps<{
 
 const envStore = useEnvStore()
 const avatarImg = computed(()=>{
-  return props.comment.author?.avatar ? `${envStore.env}${props.comment.author.avatar}` : "https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
+  return props.comment.author?.avatar ? `${envStore.env}${props.comment.author.avatar}` : '/da7ed7b0-5f66-4f97-a610-51100d3b9fd2-01.png'
 })
 
 const name = computed(()=>{
-  return props.comment.author?.avatar ? props.comment.author.name : '未命名'
+  return props.comment.author?.avatar ? props.comment.author.name : '無名氏'
 })
 </script>
 

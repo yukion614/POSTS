@@ -28,7 +28,7 @@
       </div>
       <!-- title -->
       <p class="text-white">標題:</p>
-      <textarea class="edit_title" ref="edit_title"></textarea>
+      <textarea class="edit_title" ref="edit_title">{{ title }}</textarea>
 
       <!-- 可編輯文字區 -->
       <p class="text-white">內容:</p>
@@ -38,13 +38,14 @@
         ref="content_editor"
         data-editable
       >
+        {{ content }}
       </div>
       <!-- vue3 -->
-      <div style="width: 400px; height: 400px; border: 2px soi;">
+      <!-- <div style="width: 400px; height: 400px; border: 2px soi;">
         <vue3-draggable-resizable :w="200" :h="150" :parent="true">
           imgfffffff
         </vue3-draggable-resizable>
-      </div>
+      </div> -->
 
 
       <!-- 圖片上傳 input -->
@@ -59,14 +60,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref,inject } from "vue";
+import { computed, ref } from "vue";
 import { useUserStore } from "../stores/user"
-import { useRouter } from "vue-router"
-
+import {useRoute} from "vue-router"
+import { inject } from 'vue'
 const addToast = inject('addToast')
+const route = useRoute()
+const title = computed(()=>route.query.title)  
+const content = computed(()=>route.query.content)  
+const postId = computed(()=>route.query.postId)  
 // 引入 ContentTools CSS，只作用於這個元件
 const userStore = useUserStore()
-const router = useRouter()
+
 // 取得可編輯 div 的 DOM
 const edit_title = ref(null);
 const content_editor = ref(null);
@@ -158,37 +163,32 @@ async function addComment() {
   const token = localStorage.getItem('token')
   const tokenPlus = `Bearer ${token}`
   if (!html) return alert("留言不能空白");
+
+  const api = `${import.meta.env.VITE_API_HOST}/api/posts/posts/${postId.value}`
+  console.log(api)
   // 發送給後端
-  try{
-    const response = await fetch(`${import.meta.env.VITE_API_HOST}/api/posts/create`, {
-        method: "POST",
+    
+  const response = await fetch(api, {
+        method: "PUT",
         headers: { 
             "Content-Type": "application/json",
             Authorization: tokenPlus
 
-          },
+         },
         body: JSON.stringify({ title: title, content: html ,authorId :userStore.userId }), // ← HTML 格式
-      });
-      const data = await response.json(); // 假設後端回傳 JSON
-      addToast(data.message,'success')
-      edit_title.value.innerHTML = "";
-      content_editor.value.innerHTML = "";
-      
-      setTimeout(()=>{
-         router.back()
-      },1000)
-     
+        
+    });
+    edit_title.value.innerHTML = "";
+    content_editor.value.innerHTML = "";
 
-  }catch(err){
-    addToast(data.message,'success')
-  }
-
-   
+    const data = await response.json(); // 假設後端回傳 JSON
     
-
-  
+    addToast(data.message,'success')
+    console.log("回傳資料:", data);
   
 }
+
+
 </script>
 
 

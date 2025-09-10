@@ -59,11 +59,12 @@
 </template>
 
 <script setup lang="ts">
-import {ref ,type Ref} from "vue"
+import {ref,inject ,type Ref} from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user"
 import jwt_decode from "jwt-decode"
 
+const addToast = inject('addToast')
 const router = useRouter()
 const email = ref<string>("")
 const password = ref<string>("")
@@ -93,11 +94,13 @@ async function Login(email:string ,password:string ){
             const decoded: any = jwt_decode(jwt);
             console.log(decoded)
             userStore.setUser(decoded);
-            // userStore.setUser(data.data.member)
+            console.log(data.data)
+            addToast(data.data.message,'success')
             return router.push('/')
         }else{
             message.value = data.message
-        }        
+        }
+
     }catch(err){
         console.log(err)
     }
