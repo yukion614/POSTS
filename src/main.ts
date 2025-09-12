@@ -13,6 +13,7 @@ import {
   faAnglesLeft,
   faAngleRight,
   faAnglesRight,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import PostPage from "./components/PostPage.vue";
@@ -43,7 +44,7 @@ const router = createRouter({
   routes
 });
 
-library.add(faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight);
+library.add(faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight,faTrash);
 createApp(App)
   .component("FontAwesomeIcon", FontAwesomeIcon)
   .use(createPinia())

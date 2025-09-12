@@ -8,7 +8,7 @@
         <div class="w-full p-8 lg:w-1/2">
             <h2 class="text-2xl font-semibold text-gray-700 text-center">Brand</h2>
             <p class="text-xl text-gray-600 text-center">Welcome back!</p>
-            <a href="#" class="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100">
+            <a :href="linkHtml" class="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100">
                 <div class="px-4 py-3">
                     <svg class="h-6 w-6" viewBox="0 0 40 40">
                         <path
@@ -27,6 +27,8 @@
                 </div>
                 <h1 class="px-4 py-3 w-5/6 text-center text-gray-600 font-bold">Sign in with Google</h1>
             </a>
+            <!-- <span v-html="linkHtml"></span> -->
+
             <div class="mt-4 flex items-center justify-between">
                 <span class="border-b w-1/5 lg:w-1/4"></span>
                 <a href="#"  class="text-xs text-center text-gray-500 uppercase">or login with email</a>
@@ -59,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref,inject ,type Ref} from "vue"
+import {ref,inject ,type Ref, onMounted} from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "../stores/user"
 import jwt_decode from "jwt-decode"
@@ -69,15 +71,20 @@ const router = useRouter()
 const email = ref<string>("")
 const password = ref<string>("")
 let message = ref<string>()
+const linkHtml = ref('')
 const userStore = useUserStore()
 
-const api = "http://127.0.0.1:3000/api/users/login"
+const api = `${import.meta.env.VITE_API_HOST}/api/users/login`
 
 interface User{
     success:boolean,
     data:any,
     message?: any
 }
+
+onMounted(()=>{
+    loginWithGoole()
+})
 
 
 async function Login(email:string ,password:string ){
@@ -105,5 +112,16 @@ async function Login(email:string ,password:string ){
         console.log(err)
     }
 }
+
+
+async function loginWithGoole(){
+    const api = `${import.meta.env.VITE_API_HOST}/api/auth`
+    const result =  await fetch(api)
+    console.log(result)
+    const url = await result.json()
+    linkHtml.value = url.url
+
+}
+
 
 </script>

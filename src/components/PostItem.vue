@@ -49,10 +49,10 @@ const props = defineProps<{
     content: string;
     createdAt: string;
     updatedAt: string;
-    authorId: number;
+    authorId: string;
     likeCount: number;
     author: {
-      id: number
+      id: string
       name: string
       avatar: string
     }
@@ -63,7 +63,13 @@ const props = defineProps<{
 
 const avatarImg = computed(()=>{
   if(props.post.author.avatar !== null){
-    return `${import.meta.env.VITE_API_HOST}${props.post.author.avatar}`
+    //判斷是不是google 來的頭像
+    if(props.post.author.avatar.startsWith('https://')){
+      return props.post.author.avatar
+    }else{
+      return `${import.meta.env.VITE_API_HOST}${props.post.author.avatar}` 
+    }
+    // return `${import.meta.env.VITE_API_HOST}${props.post.author.avatar}`
   }else{
     return '/da7ed7b0-5f66-4f97-a610-51100d3b9fd2-02.png'
   }

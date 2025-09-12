@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
 
 interface User{
-    member_id:number,
+    member_id:string,
     name: string,
     email: string,
     avatar?: string ,
     role?: number,
     createdAt?:string,
-    updatedAt?:string
+    updatedAt?:string,
+    provider:string
 }
 
 export const useUserStore = defineStore('user',{

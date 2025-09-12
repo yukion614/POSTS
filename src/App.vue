@@ -5,7 +5,6 @@ import Toast from "./components/Toast.vue";
 
 // toast 事件
 const toasts = ref([]);
-
 function addToast(message:any, type = "info") {
   const id = Date.now(); // 簡單 ID
   toasts.value.push({ id, message, type });

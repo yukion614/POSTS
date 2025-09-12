@@ -66,7 +66,7 @@ const containerHeight = ref(200);
 const router = useRouter()
 const route = useRoute()
 
-
+  console.log('userStore.user=>', userStore.user )
 // 非同步載入圖片
 function loadImageAsync(file) {
   return new Promise((resolve, reject) => {
@@ -128,7 +128,7 @@ function cancel(){
 }
 async function submit(){
   const id = String(userStore.userId) 
-  const api = `http://127.0.0.1:3000/api/users/${id}/avatar`
+  const api = `${import.meta.env.VITE_API_HOST}/api/users/${id}/avatar`
   const avatarImg = croppedImage.value // Base64
 
   // 1. 將 Base64 轉成 Blob

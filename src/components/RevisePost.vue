@@ -60,12 +60,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref ,inject } from "vue";
 import { useUserStore } from "../stores/user"
-import {useRoute} from "vue-router"
-import { inject } from 'vue'
+import {useRoute , useRouter} from "vue-router"
+
 const addToast = inject('addToast')
 const route = useRoute()
+const router = useRouter()
 const title = computed(()=>route.query.title)  
 const content = computed(()=>route.query.content)  
 const postId = computed(()=>route.query.postId)  
@@ -184,6 +185,9 @@ async function addComment() {
     const data = await response.json(); // 假設後端回傳 JSON
     
     addToast(data.message,'success')
+    setTimeout(()=>{
+      router.back()
+    },1000)
     console.log("回傳資料:", data);
   
 }

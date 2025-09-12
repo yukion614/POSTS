@@ -37,7 +37,7 @@ export const usePostStore = defineStore("post", {
   actions: {
     //---------------------------------
     async fetchPostById(id: number) {
-      const res = await fetch(`http://127.0.0.1:3000/api/posts/${id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_HOST}/api/posts/${id}`);
       this.post = await res.json();
     },
     //發留言---------------------------------
@@ -60,6 +60,7 @@ export const usePostStore = defineStore("post", {
       console.log("留言失敗", err);
       throw err;
     }
-}
+    },
+   
   },
 });

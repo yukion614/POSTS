@@ -51,12 +51,13 @@
 
         <hr />
         <!-- chat -->
-
-        <Comments
-          v-for="el in postStore.post?.comments"
-          :key="el.id"
-          :comment="el"
-        />
+        <div class="max-h-64 overflow-auto"  @wheel="handleWheel">
+          <Comments
+            v-for="el in comments?.slice(0,commentLimit)"
+            :key="el.id"
+            :comment="el"
+          />
+        </div>
         <!-- chat end -->
       </div>
       <hr />
@@ -81,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref } from "vue";
+import { computed, onBeforeMount, onMounted, ref,inject } from "vue";
 import { usePostStore } from "../stores/post";
 import { useUserStore } from "../stores/user";
 import { useRoute,useRouter  } from "vue-router";
@@ -89,6 +90,8 @@ import Comments from './Comments.vue'
 
 
 
+
+const addToast = inject('addToast')
 const route = useRoute();
 const postStore = usePostStore();
 const userStore = useUserStore()
@@ -99,6 +102,10 @@ const title = computed(()=>postStore.post?.title)
 const postId = computed(()=>postStore.post?.id) 
 
 const likeColor = ref<string>('none')
+const commentLimit = ref<number>(3)
+//管理我的留言狀態
+const comments = computed(()=>postStore.post?.comments)
+
 
 
 
@@ -120,6 +127,7 @@ const isPoster = computed(()=>{
 
 const avatarImg = computed(()=>{
   if(postStore.post?.author.avatar !== null){
+  
     return `${import.meta.env.VITE_API_HOST}${postStore.post?.author.avatar}` 
   }else{
     return '/da7ed7b0-5f66-4f97-a610-51100d3b9fd2-02.png'
@@ -158,7 +166,7 @@ function toRevisePost(title:string,content:string,postId:number){
 async function sendLike(){
   const postId = postStore.post?.id
   const authorId = userStore.userId
-  const api = `http://127.0.0.1:3000/api/posts/${postId}/${authorId}`
+  const api = `${import.meta.env.VITE_API_HOST}/api/posts/${postId}/${authorId}`
   console.log(api,"<====")
   const result = await fetch(api,{
     method:"POST",
@@ -166,8 +174,14 @@ async function sendLike(){
   const data = await result.json()
   if(data.success){
     likeColor.value = 'red'
+  }else{
+    addToast(data.message)
   }
   console.log(data)
+}
+
+function handleWheel(){
+  commentLimit.value+=2
 }
 
 </script>

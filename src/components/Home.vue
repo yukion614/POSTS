@@ -18,7 +18,24 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import Calender from "./Calender.vue";
+import { useRoute } from "vue-router"
+import { useUserStore } from "../stores/user"
+import jwt_decode from "jwt-decode"
+
+const route = useRoute()
+const userStore = useUserStore()
+onMounted(()=>{
+  const token =  route.query?.token
+
+  if(token){
+      localStorage.setItem('token',token)
+      const decode = jwt_decode(token)
+      userStore.setUser(decode)
+  }
+})
+
 </script>
 
 <style scoped>

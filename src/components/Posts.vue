@@ -76,14 +76,14 @@ import { ref, onMounted, onBeforeMount, reactive, computed } from "vue";
 import PostItem from "./PostItem.vue";
 import Pagination from "./pagination.vue";
 
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  authorId: number;
-}
+// interface Post {
+//   id: number;
+//   title: string;
+//   content: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   authorId: string;
+// }
 
 // ---------------------------
 interface Post {
@@ -92,9 +92,9 @@ interface Post {
   content: string;
   createdAt: string;
   updatedAt: string;
-  authorId: number;
+  authorId: string;
   author: {
-    id: number
+    id: string
     name: string
     avatar: string
   }
