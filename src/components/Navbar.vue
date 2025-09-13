@@ -69,17 +69,11 @@ const AvatarImg = ref<string>(defaultAvatar)
 const token =ref<any>(localStorage.getItem('token')) 
 const isLogin = ref<boolean>()
 
-
-  // const avatarLink = computed(() => {
-  //   return isLogin.value ? route.fullPath : { name: 'login' }
-  // })
-
-
 // 初始化一次
 onMounted(() => updateUserFromToken(token.value));
 
 
-
+//監聽使用者圖像登入狀態有沒改變
 watch(
   ()=>userStore.user,(newUser)=>{
     AvatarImg.value = userStore.userAvatar || defaultAvatar
@@ -93,9 +87,18 @@ function updateUserFromToken(jwt: string | null) {
   if (jwt) {
     try {
       const decoded: any = jwt_decode(jwt);
-
-      userStore.setUser(decoded);
-      isLogin.value = true;
+      //檢查是否過期
+      const now = Math.floor(Date.now()/1000) 
+      if(decoded.exp < now){
+        //過期
+        localStorage.removeItem('token')
+        return
+      }else{
+        //沒過期
+        userStore.setUser(decoded);
+        isLogin.value = true;
+      }
+   
       
     } catch (err) {
       console.error("JWT 解析錯誤:", err);

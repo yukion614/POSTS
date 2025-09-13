@@ -56,6 +56,7 @@
             v-for="el in comments?.slice(0,commentLimit)"
             :key="el.id"
             :comment="el"
+            :postId="postStore.post?.id" 
           />
         </div>
         <!-- chat end -->
