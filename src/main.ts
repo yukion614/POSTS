@@ -24,6 +24,7 @@ import Profile from "./components/Profile.vue"
 import Avatar from "./components/Avatar.vue";
 import CreatePost from "./components/CreatePost.vue";
 import RevisePost from "./components/RevisePost.vue";
+// import Swiper from "./components/swiper.vue";
 
 
 const routes = [
@@ -35,8 +36,8 @@ const routes = [
     { path: "/profile" , name: 'profile' , component: Profile},
     { path: "/editavatar" , name: 'editavatar', component: Avatar},
     { path: "/create_post" , name: 'create_post' ,component: CreatePost  },
-    { path: "/revise_post" , name: 'revise_post' ,component:RevisePost}
-   
+    { path: "/revise_post" , name: 'revise_post' ,component:RevisePost},
+    // { path: "/swiper" , name:'swiper',component: Swiper}
   ]
 
 const router = createRouter({

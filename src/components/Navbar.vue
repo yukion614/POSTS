@@ -12,7 +12,7 @@
       <router-link to="/posts" class="btn btn-ghost text-white"
         >留言板</router-link
       >
-      <a class="btn btn-ghost text-white">NEWS</a>
+      <router-link :to="{}" class="btn btn-ghost text-white">NEWS</router-link>
       <button class="btn btn-outline text-white">積分榜</button>
 
       <!-- Search -->

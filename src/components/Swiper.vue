@@ -14,7 +14,7 @@
       v-model="content"
       :init="editorInit"
     />
-    <button class="text-white" @click="addComment()">發表文章</button>
+    <button class="text-white" @click="addComment()">查看內容</button>
   </main>
 </template>
 
