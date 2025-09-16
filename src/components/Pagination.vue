@@ -4,7 +4,7 @@
     :class="{ 'text-white': isDisabled }"
     :disabled="isDisabled"
   >
-    {{ props.pageNum?.id }}<slot></slot>
+    {{ props.pageNum?.id }}
   </button>
 </template>
 <script setup lang="ts">

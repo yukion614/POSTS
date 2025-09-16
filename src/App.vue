@@ -20,12 +20,13 @@ function removeToast(id) {
 }
 // 提供給全局使用
 provide('addToast', addToast)
+
 </script>
 
 <template>
   <Toast :toasts="toasts" :removeToast="removeToast" />
   <Navbar />
-  <div class="app-container flex justify-center px-10">
+  <div class="app-container flex justify-center">
     <!-- router-view  -->
     <router-view />
   </div>
@@ -33,7 +34,6 @@ provide('addToast', addToast)
 
 <style scoped>
 .app-container {
-  background-color: rgb(35, 35, 35);
   min-height: 100vh; 
   justify-content: center;
   display: flex;

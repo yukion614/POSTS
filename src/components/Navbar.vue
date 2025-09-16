@@ -1,18 +1,43 @@
 <template>
-  <div class="navbar bg-red-700 shadow-sm w-full">
-    <div class="flex-1">
+  <div class="navbar shadow-sm w-full">
+    <div class="flex-1 flex">
       <router-link to="/" class="btn btn-ghost text-xl text-white"
-        >daisyUI</router-link
+        ><img class="w-20" src="/images/logo-01.png" alt=""></router-link
       >
+     
+        <div @click="show_lang" class="ml-28 mt-1 z-50 absolute chg_lang_list w-40 bg-white p-1 px-2 text-xs" style="border-radius:15px; border: solid 1px #FBC51D;">
+          <div class="flex justify-between items-center">
+            <FontAwesomeIcon class="text-gray-400" :icon="faGlobe" />
+             繁體中文 
+             <FontAwesomeIcon class="mb-2" :class="{'rotate-45':chg_lang}"  :icon="faSortDown" />
+          </div>     
+              <div v-for="(el,index) in [{label:'簡體中文',value:'zh-CN'},{label:'english',value:'en-US'},{label:'日文',value:'ja-JP'}]" :key="el.value">
+                <transition
+                  enter-active-class="transition duration-1000 ease-in-out"
+                  enter-from-class="opacity-0 translate-y-[-5px]"
+                  enter-to-class="opacity-100 translate-y-0"
+                  leave-active-class="transition duration-700 ease-in-out"
+                  leave-from-class="opacity-100 translate-y-0"
+                  leave-to-class="opacity-0 translate-y-[-5px]"
+                >
+                  <p v-if="chg_lang" :style="{ transitionDelay: `${index * 100}ms` }" class="text-center" @click="switchLang(el.value)">{{ el.label }}</p>
+                </transition>
+              </div>
+
+        </div>
+    
+
+
+      
     </div>
     <div class="flex gap-2">
       <!-- button -->
-      <a class="btn btn-ghost text-white">賽程</a>
-      <a class="btn btn-ghost text-white">車手</a>
+      <router-link :to="{name:'event'}" class="btn btn-ghost text-white">{{ $t('event') }}</router-link>
+      <router-link :to="{name:'ranking'}" class="btn btn-ghost text-white">{{ $t('charts') }}</router-link>
       <router-link to="/posts" class="btn btn-ghost text-white"
-        >留言板</router-link
+        >{{ $t('forum') }}</router-link
       >
-      <router-link :to="{}" class="btn btn-ghost text-white">NEWS</router-link>
+      <router-link :to="{ name:'news' }" class="btn btn-ghost text-white">{{ $t('news') }}</router-link>
       <button class="btn btn-outline text-white">積分榜</button>
 
       <!-- Search -->
@@ -56,10 +81,13 @@
 </template>
 
 <script setup lang="ts">
+import { faSortDown,faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { useRouter,useRoute } from 'vue-router';
 import {computed,watchEffect, ref,type Ref, watch, onBeforeMount ,onMounted} from "vue"
 import { useUserStore } from "../stores/user"
 import jwt_decode from "jwt-decode";
+import { i18n } from "../plugins/i18n"
+
 
 const router = useRouter()
 const route = useRoute()
@@ -76,6 +104,7 @@ onMounted(() => updateUserFromToken(token.value));
 //監聽使用者圖像登入狀態有沒改變
 watch(
   ()=>userStore.user,(newUser)=>{
+    console.log(userStore.user?.avatar)
     AvatarImg.value = userStore.userAvatar || defaultAvatar
     isLogin.value = !!newUser 
   },
@@ -87,6 +116,7 @@ function updateUserFromToken(jwt: string | null) {
   if (jwt) {
     try {
       const decoded: any = jwt_decode(jwt);
+      console.log(decoded)
       //檢查是否過期
       const now = Math.floor(Date.now()/1000) 
       if(decoded.exp < now){
@@ -119,6 +149,34 @@ function Logout(){
   userStore.clearUser()
   router.push('/') 
 }
+
+// chg_lang
+const chg_lang = ref<boolean>(false)
+function show_lang(){
+  chg_lang.value = !chg_lang.value
+
+}
+
+function switchLang(lang:string) {
+  console.log('down',lang)
+  i18n.global.locale.value = lang
+
+}
+
 </script>
 
-<style scoped></style>
+<style scoped>
+.item {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: 0.3s; /* 延遲 0.3 秒再開始 */
+}
+.item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.navbar{
+  background: linear-gradient(90deg,rgba(255, 145, 0, 1) 0%, rgba(255, 208, 0, 1) 50%, rgba(255, 217, 0, 1) 100%);
+}
+</style>

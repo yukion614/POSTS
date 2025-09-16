@@ -1,10 +1,11 @@
 <template>
-  <div class="w-full flex py-5">
-      <router-link :to="{name: 'create_post'}" class="ml-auto btn btn-warning">發表新文章</router-link>
+  <div class="w-10/12 mx-auto">
+    <div class="flex py-5">
+        <router-link :to="{name: 'create_post'}" class="ml-auto btn btn-warning">發表新文章</router-link>
 
-  </div>
+    </div>
   <hr>
-  <div class="flex flex-col gap-2 w-full">
+  <div class="flex flex-col gap-2">
     <!-- 數字bar -->
     <div class="join flex w-full border-gray-200">
       <Pagination :disabled="paginationData.isFirstPage" @click="toPage(1)">
@@ -30,6 +31,7 @@
       >
         <FontAwesomeIcon class="text-gray-400" :icon="['fas', 'angle-right']" />
       </Pagination>
+
       <Pagination
         :disabled="paginationData.isLastPage"
         @click="toPage(paginationData.pageCount)"
@@ -42,7 +44,7 @@
     </div>
     <!-- 數字bar end -->
     <div class="overflow-x-auto w-full">
-      <table class="table bg-gray-500">
+      <table class="table bg-yellow-200 border-2 border-yellow-300">
         <!-- head -->
         <thead>
           <tr>
@@ -58,7 +60,7 @@
           <tr
             v-for="(post, index) in postsData"
             :key="post.id"
-            :class="{ 'bg-gray-200': index % 2 === 0 }"
+            :class="{ 'bg-yellow-50': index % 2 === 0 }"
             @click="toPost(post.id)"
           >
             <PostItem :post="post" />
@@ -68,6 +70,7 @@
         <tfoot></tfoot>
       </table>
     </div>
+  </div>
   </div>
 </template>
 
@@ -110,9 +113,9 @@ async function fetchPosts(api: string) {
   return data;
 }
 const page = ref<number>(1);
-const limit = ref<number>(4);
+const limit = ref<number>(8);
 
-const api = `http://127.0.0.1:3000/api/posts/pagination?page=${page.value}&limit=${limit.value}`;
+const api = `${import.meta.env.VITE_API_HOST}/api/posts/pagination?page=${page.value}&limit=${limit.value}`;
 
 const postsData = ref<Post[]>([]);
 const paginationData = ref<any>({});
@@ -124,7 +127,7 @@ onBeforeMount(async () => {
 });
 
 async function toPage(pageNumber: number) {
-  const api = `http://127.0.0.1:3000/api/posts/pagination?page=${pageNumber}&limit=${limit.value}`;
+  const api = `${import.meta.env.VITE_API_HOST}/api/posts/pagination?page=${pageNumber}&limit=${limit.value}`;
   const data = await fetchPosts(api);
   postsData.value = data.contacts;
   paginationData.value = data.meta;

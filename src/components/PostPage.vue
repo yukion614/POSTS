@@ -128,8 +128,8 @@ const isPoster = computed(()=>{
 
 const avatarImg = computed(()=>{
   if(postStore.post?.author.avatar !== null){
-  
     return `${import.meta.env.VITE_API_HOST}${postStore.post?.author.avatar}` 
+    // return `${import.meta.env.VITE_API_HOST}${postStore.post?.author.avatar}` 
   }else{
     return '/da7ed7b0-5f66-4f97-a610-51100d3b9fd2-02.png'
   }

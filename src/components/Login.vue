@@ -99,7 +99,7 @@ async function Login(email:string ,password:string ){
             localStorage.setItem('token',data.data.token)
             const jwt: any = localStorage.getItem('token')
             const decoded: any = jwt_decode(jwt);
-            console.log(decoded)
+            console.log('==>',decoded)
             userStore.setUser(decoded);
             console.log(data.data)
             addToast(data.data.message,'success')

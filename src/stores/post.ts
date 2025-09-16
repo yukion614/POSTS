@@ -42,7 +42,7 @@ export const usePostStore = defineStore("post", {
     },
     //發留言---------------------------------
     async submitComment(postId: number, content: string, authorId: number) {
-      const api = `http://127.0.0.1:3000/api/comments/posts/${postId}/comments`;
+      const api = `${import.meta.env.VITE_API_HOST}/api/comments/posts/${postId}/comments`;
       const token = localStorage.getItem('token')
       try {
         const res = await fetch(api, {
