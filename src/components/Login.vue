@@ -83,7 +83,7 @@ interface User{
 }
 
 onMounted(()=>{
-    loginWithGoole()
+    loginWithGoogle()
 })
 
 
@@ -114,7 +114,7 @@ async function Login(email:string ,password:string ){
 }
 
 
-async function loginWithGoole(){
+async function loginWithGoogle(){
     const api = `${import.meta.env.VITE_API_HOST}/api/auth`
     const result =  await fetch(api)
     console.log(result)
