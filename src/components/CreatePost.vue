@@ -15,7 +15,7 @@
       :init="editorInit"
     /> -->
     <Editor
-      :api-key="no-api-key"
+      :api-key="api_key"
       v-model="content"
       :init="editorInit"
     />
